@@ -65,9 +65,12 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "foreignKey": {
+    "profile_slug": {
       "type": "uid",
       "targetField": "username"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }
