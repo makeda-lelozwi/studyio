@@ -4,26 +4,30 @@
   "info": {
     "singularName": "course",
     "pluralName": "courses",
-    "displayName": "Course"
+    "displayName": "Course",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
-    "Title": {
-      "type": "string",
-      "required": true,
-      "unique": true
+    "title": {
+      "type": "string"
     },
-    "Description": {
-      "type": "blocks",
-      "required": true
+    "description": {
+      "type": "text"
     },
-    "Price": {
-      "type": "integer",
-      "default": 0
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     },
-    "Creater": {
+    "price": {
+      "type": "integer"
+    },
+    "creater": {
       "type": "string"
     }
   }
