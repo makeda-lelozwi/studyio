@@ -1,29 +1,15 @@
 "use client";
+import { Button, Typography } from "@mui/material";
 import React from "react";
-import { useEffect, useState } from "react";
-
 const HomePage = () => {
-  const [data, setData] = useState<HomePageProps | null>(null);
-
-  useEffect(() => {
-    const loadData = async () => {
-      const path = "/api/home-page";
-      const BASE_URL = "http://localhost:1337";
-      const url = new URL(path, BASE_URL);
-
-      const response = await fetch(url.href);
-      const result = await response.json();
-
-      const transformedData: HomePageProps = {
-        id: result.data.id,
-        title: result.data.title,
-      };
-      setData(transformedData);
-    };
-    loadData();
-  }, []);
-
-  return <div>{data && <p>{data.title}</p>}</div>;
+  return (
+    <>
+      <Typography variant="h6" component={"h1"}>
+        Create and share courses with anyone, anywhere.
+      </Typography>
+      <Button href="/login">JOIN STUDY.IO</Button>
+    </>
+  );
 };
 
 export default HomePage;
