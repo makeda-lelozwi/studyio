@@ -18,17 +18,23 @@
       "type": "text"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "price": {
       "type": "integer"
     },
-    "creater": {
-      "type": "string"
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "user_id": {
+      "type": "biginteger"
     }
   }
 }
