@@ -1,15 +1,25 @@
 "use client";
 import { Grid2, TextField, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { UserData } from "@/types";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [userData, setUserData] = useState<UserData | null>(null);
+  const router = useRouter();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleLogin = async (event: any) => {
+  useEffect(() => {
+    // When reading the cookie, parse the JSON data
+    const userDataCookie = Cookies.get("userData");
+    const parsedUserData = JSON.parse(userDataCookie || "{}") as UserData; // Explicitly cast to UserData
+    setUserData(parsedUserData);
+  }, []);
+
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       const response = await fetch("http://localhost:1337/api/auth/local", {
@@ -28,8 +38,11 @@ const Login = () => {
           isLoggedIn: data.user.confirmed,
         };
 
+        Cookies.set("userData", JSON.stringify(userData));
         console.log(userData);
         setUserData(userData);
+
+        router.push("/dashboard");
       } else {
         setLoginError(data.message[0].messages[0].message);
       }
@@ -39,18 +52,14 @@ const Login = () => {
     }
   };
 
-  const handleSignOut = () => {
-   setUserData(null);
-  }
-
   return (
     <Grid2>
-      <div>
-        <h3>Welcome to Study.io</h3>
-        <p>Enter your email and password to share your courses.</p>
+      {!userData?.isLoggedIn && (
+        <div>
+          <h3>Welcome to Study.io</h3>
+          <p>Enter your email and password to share your courses.</p>
 
-        {!userData?.isLoggedIn && (
-          <form action="">
+          <form action="" onSubmit={handleLogin}>
             <div>
               <p>Username </p>{" "}
               <TextField
@@ -75,8 +84,8 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-            <Button type="submit" variant="contained" onClick={handleLogin}>
+            {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+            <Button type="submit" variant="contained">
               Login
             </Button>
             <h3>New to Study.io?</h3>
@@ -84,18 +93,8 @@ const Login = () => {
               Register Here
             </Button>
           </form>
-        )}
-        {userData?.isLoggedIn && (
-            <div>
-              <p>Logged in as: {userData.userName}</p>
-              <p>Is logged in: {userData.isLoggedIn ? 'Yes' : 'No'}</p>
-              <Button variant="contained" onClick={handleSignOut} color={'error'}>
-                Sign Out
-              </Button>
-            </div>
-        )}
-        
-      </div>
+        </div>
+      )}
     </Grid2>
   );
 };
