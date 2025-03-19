@@ -3,11 +3,17 @@ import React, { SyntheticEvent, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button, Grid2 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import AlertComponent from "../../../components/AlertComponent";
+import Cookies from "js-cookie";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signUpError, setSignUpError] = useState("");
+  let message = "";
+  let isError = false;
+  let showAlert = false;
   const router = useRouter();
 
   const handleRegister = async (event: SyntheticEvent) => {
@@ -25,9 +31,31 @@ const SignUp = () => {
       const data = await response.json();
 
       console.log(data);
+
+      if (response.ok) {
+        message = "Successfully registered account.";
+        isError = false;
+        showAlert = true;
+
+        const userData = {
+          authToken: data.jwt,
+          userName: data.user.username,
+          user_id: data.user.id,
+          isLoggedIn: data.user.confirmed,
+        };
+
+        Cookies.set("userData", JSON.stringify(userData));
+      } else {
+        setSignUpError(data.error.message);
+        return;
+      }
       router.push("/dashboard");
     } catch (error) {
+      showAlert = true;
       console.error("Registration error:", error);
+      setSignUpError(
+        "An error occured during sign up. Please try again later."
+      );
     }
   };
   return (
@@ -35,6 +63,11 @@ const SignUp = () => {
       <div>
         <h3>Get started with Study.io</h3>
         <p>Sign in and start creating courses now!</p>
+
+        {showAlert && (
+          <AlertComponent message={message} isError={isError}></AlertComponent>
+        )}
+
         <form action="" onSubmit={handleRegister}>
           <div>
             <p>Name </p>{" "}
@@ -70,6 +103,12 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {signUpError && (
+            <AlertComponent
+              message={signUpError}
+              isError={true}
+            ></AlertComponent>
+          )}
           <Button type="submit" variant="contained">
             Sign Up
           </Button>

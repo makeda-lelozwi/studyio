@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { UserData } from "@/types";
 import { useRouter } from "next/navigation";
+import AlertComponent from "../../../components/AlertComponent";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
@@ -45,7 +46,8 @@ const Login = () => {
 
         router.push("/dashboard");
       } else {
-        setLoginError(data.message[0].messages[0].message);
+        console.log(data);
+        setLoginError(data.error.message);
       }
     } catch (error) {
       console.error(error);
@@ -85,7 +87,13 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+            {loginError && (
+              <AlertComponent
+                message={loginError}
+                isError={true}
+              ></AlertComponent>
+            )}
+            {/* {loginError && <p style={{ color: "red" }}>{loginError}</p>} */}
             <Button type="submit" variant="contained">
               Login
             </Button>
