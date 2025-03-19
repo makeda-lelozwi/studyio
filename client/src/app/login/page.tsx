@@ -35,6 +35,7 @@ const Login = () => {
         const userData = {
           authToken: data.jwt,
           userName: data.user.username,
+          user_id: data.user.id,
           isLoggedIn: data.user.confirmed,
         };
 

@@ -17,14 +17,6 @@
     "description": {
       "type": "text"
     },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "price": {
       "type": "integer"
     },
@@ -35,6 +27,14 @@
     },
     "user_id": {
       "type": "biginteger"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

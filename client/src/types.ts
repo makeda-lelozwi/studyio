@@ -1,19 +1,30 @@
 type UserData = {
   authToken: string;
   userName: string;
+  user_id: number;
   isLoggedIn: boolean;
 };
 
 type CourseData = {
-  id:number;
+  id: number;
   createdAT: string;
-  documentId:string;
-  price:number;
+  documentId: string;
+  price: number;
   title: string;
+  cover: number;
   description: string;
   updatedAt: string;
   publishedAt: string;
-  user_id:number;
+  user_id: number;
+};
+
+type ImageEntry = {
+  id: number;
+  documentId: string;
+  name: string;
+  caption: string;
+  alternativeText: string;
+  url: string;
 };
 
 type UserDataResponse = {
@@ -44,6 +55,7 @@ type ErrorResponse = {
 export type {
   UserData,
   CourseData,
+  ImageEntry,
   UserDataResponse,
   CourseResponse,
   ErrorResponse,

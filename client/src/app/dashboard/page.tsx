@@ -1,45 +1,108 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Cookies from "js-cookie";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import TabComponent from "../../../components/TabComponent";
+import { CourseData } from "@/types";
+import AlertComponent from "../../../components/Alert/AlertComponent";
 
+interface initState {
+  data: CourseData[];
+  isError: boolean;
+  message: string;
+  isLoading: boolean;
+}
+interface initAction {
+  type: string;
+  message: string;
+  payload: CourseData[];
+  isLoading: boolean;
+}
 
 const Dashboard = () => {
   const [userName, setUserName] = useState<string | null>(null);
   const tabs = ["All courses", "Create course"];
-  const [courses, setCourses] = useState([]);
+  // const [courses, setCourses] = useState([]);
+  const reducer = (prevState: initState, action: initAction) => {
+    switch (action.type) {
+      case "successful":
+        return {
+          ...prevState,
+          data: action.payload,
+          isError: false,
+          message:
+            action.payload.length === 0
+              ? "No courses found"
+              : "Successfully loaded courses",
+        };
+      case "failed":
+        return {
+          ...prevState,
+          data: action.payload,
+          isError: true,
+          message: action.message,
+        };
+      case "loading":
+        return {
+          ...prevState,
+          isLoading: action.isLoading,
+        };
+      default:
+        throw new Error(`Unhandled action type`);
+    }
+  };
+  const initValue: initState = {
+    data: [],
+    isError: false,
+    message: "",
+    isLoading: false,
+  };
+  const [courses, dispatchCourses] = useReducer(reducer, initValue);
 
   useEffect(() => {
-    // Read the user data cookie and parse the JSON data
     const userDataCookie = Cookies.get("userData");
     const parsedUserData = JSON.parse(userDataCookie || "{}");
     const token = parsedUserData.authToken;
-    console.log(parsedUserData);
+    const user_id = parsedUserData.user_id;
+
     setUserName(parsedUserData.userName || null);
 
-    async function fetchCourseData() {
-      try {
-        const response = await fetch("http://localhost:1337/api/courses", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP Error! Status: ${response.status}`);
-        }
-
-        const courseResponse = await response.json();
-        setCourses(courseResponse.data);
-      } catch (error) {
-        console.error("Error fetching courses data:", error);
+    fetch(
+      `http://localhost:1337/api/courses?filters[user_id][$eq]=${user_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    }
-    fetchCourseData();
+    )
+      .then(async (res) => {
+        let data;
+        if (res.status === 200) {
+          data = await res.json();
+          dispatchCourses({
+            type: "successful",
+            payload: data.data,
+            message: "",
+            isLoading: false,
+          });
+        } else {
+          data = await res.json();
+          throw new Error(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message, error);
+        dispatchCourses({
+          type: "failed",
+          message: error.message,
+          payload: [],
+          isLoading: false,
+        });
+      })
+      .finally(() => {
+        console.log("Courses are loaded.");
+      });
   }, []);
-
-  console.log(courses);
 
   if (!userName) {
     return <div>Loading...</div>;
@@ -47,19 +110,15 @@ const Dashboard = () => {
 
   return (
     <>
-      {userName ? (
-        <>
-          <Typography variant={"h6"} component={"h1"}>
-            Welcome to your dashboard,{" "}
-            <span style={{ color: "red" }}>{userName}</span>!
-          </Typography>
-          <Button variant="contained">Sign out</Button>
-
-          <TabComponent tabs={tabs} courses={courses}></TabComponent>
-        </>
-      ) : (
-        <Typography>You need to login.</Typography>
-      )}
+      <Typography variant={"h6"} component={"h1"}>
+        Welcome to your dashboard,{" "}
+        <span style={{ color: "red" }}>{userName}</span>!
+      </Typography>
+      <AlertComponent
+        message={courses.message}
+        isError={courses.isError}
+      ></AlertComponent>
+      <TabComponent tabs={tabs} courses={courses.data}></TabComponent>
     </>
   );
 };
