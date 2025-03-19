@@ -163,6 +163,14 @@ const Create = () => {
         <Button type="submit" variant="contained" sx={{ margin: "8px" }}>
           Create Course
         </Button>
+        <Button
+          variant="contained"
+          color="error"
+          href="/dashboard"
+          sx={{ margin: "8px" }}
+        >
+          Back
+        </Button>
       </form>
     </Grid2>
   );
