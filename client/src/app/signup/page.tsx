@@ -1,5 +1,5 @@
 "use client";
-import React, { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button, Grid2, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";

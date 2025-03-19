@@ -1,6 +1,6 @@
 "use client";
 import { Grid2, TextField, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { UserData } from "@/app/types";
 import { useRouter } from "next/navigation";
@@ -41,12 +41,11 @@ const Login = () => {
         };
 
         Cookies.set("userData", JSON.stringify(userData));
-       
+
         setUserData(userData);
 
         router.push("/dashboard");
       } else {
-        
         setLoginError(data.error.message);
       }
     } catch (error) {
@@ -67,6 +66,9 @@ const Login = () => {
       {!userData?.isLoggedIn && (
         <>
           <Grid2>
+            <Typography variant={"h6"} component={"h2"}>
+              Study.io
+            </Typography>
             <Typography variant={"h6"} component={"h2"}>
               Enter your email and password to view your courses.
             </Typography>

@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";

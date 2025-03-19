@@ -1,8 +1,10 @@
+"use client";
 import { Button, Grid2, TextField, Typography } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import AlertComponent from "./AlertComponent";
+import AlertComponent from "../components/AlertComponent";
+import { useRouter } from "next/navigation";
 
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -12,6 +14,7 @@ const Create = () => {
   const [coverDescription, setCoverDescription] = useState("");
   const [createSuccess, setCreateSuccess] = useState("");
   const [createError, setCreateError] = useState("");
+  const router = useRouter();
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const userDataCookie = Cookies.get("userData");
@@ -35,7 +38,7 @@ const Create = () => {
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         const imageId = data[0].id;
         const coverName = data[0].name;
@@ -70,8 +73,8 @@ const Create = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        
         setCreateSuccess("Course successfully created.");
+        router.back();
       } else {
         setCreateError(data.error.message);
         throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -87,7 +90,11 @@ const Create = () => {
       direction="column"
       alignItems="center"
       justifyContent="center"
+      margin={2}
     >
+      <Typography variant={"h6"} component={"h2"}>
+        Complete the form and upload a course
+      </Typography>
       {createSuccess && (
         <AlertComponent message={createSuccess} isError={false} />
       )}
@@ -98,7 +105,6 @@ const Create = () => {
           <TextField
             required
             id="outlined-basic"
-            label="Course Title"
             variant="outlined"
             value={title}
             sx={{ width: 350 }}
@@ -111,7 +117,6 @@ const Create = () => {
           <TextField
             required
             id="outlined-basic"
-            label="Course Description"
             variant="outlined"
             multiline
             rows={4}
@@ -130,16 +135,21 @@ const Create = () => {
             sx={{ width: 350 }}
           >
             Upload Course Cover
-            <input type="file" hidden onChange={handleFileUpload} />
+            <input
+              type="file"
+              hidden
+              onChange={handleFileUpload}
+              accept="image/*"
+            />
           </Button>
           <Typography>{coverDescription ? coverDescription : ""}</Typography>
         </div>
         <div>
-          <p>Price </p>{" "}
+          <p>Price (optional) </p>
+          {""}
           <TextField
             id="outlined-basic"
             type="number"
-            label="Price (optional)"
             variant="outlined"
             value={price}
             sx={{ width: 350 }}

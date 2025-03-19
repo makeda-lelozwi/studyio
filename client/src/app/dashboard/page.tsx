@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Cookies from "js-cookie";
 import { Button, Grid2, Typography } from "@mui/material";
-import TabComponent from "../components/TabComponent";
 import { CourseData } from "@/app/types";
 import AlertComponent from "../components/AlertComponent";
 import { useRouter } from "next/navigation";
+import CourseList from "../components/CourseList";
 
 interface initState {
   data: CourseData[];
@@ -113,13 +113,24 @@ const Dashboard = () => {
   return (
     <>
       {userName ? (
-        <Grid2 container spacing={2} sx={{ display: "flex", flexWrap: "wrap" }}>
+        <Grid2 container spacing={2} margin={2}>
           <Typography variant={"h6"} component={"h1"}>
             Welcome to your dashboard, {userName}!
           </Typography>
-          <Button variant="contained" onClick={handleLogOut}>
-            Log Out
-          </Button>
+          <Grid2
+            container
+            spacing={2}
+            sx={{ display: "flex", flexWrap: "wrap" }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Button variant="contained" color="error" onClick={handleLogOut}>
+              Log Out
+            </Button>
+            <Button variant="contained" href="/create">
+              Ceate a new Course
+            </Button>
+          </Grid2>
         </Grid2>
       ) : (
         <Typography variant={"h6"} component={"h1"}>
@@ -130,7 +141,7 @@ const Dashboard = () => {
         message={courses.message}
         isError={courses.isError}
       ></AlertComponent>
-      <TabComponent tabs={tabs} courses={courses.data}></TabComponent>
+      <CourseList tabs={tabs} courses={courses.data}></CourseList>
     </>
   );
 };

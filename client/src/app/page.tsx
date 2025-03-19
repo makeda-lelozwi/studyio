@@ -1,13 +1,7 @@
-import React from "react";
-import HomePage from "./components/Home";
-import { Grid2 } from "@mui/material";
+import Login from "./login/page";
 
 const Home = () => {
-  return (
-    <Grid2 container alignItems="center" justifyContent="center">
-      <HomePage />
-    </Grid2>
-  );
+  return <Login />;
 };
 
 export default Home;
