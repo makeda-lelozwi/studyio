@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Cookies from "js-cookie";
 import { Button, Typography } from "@mui/material";
-import TabComponent from "../../../components/TabComponent";
+import TabComponent from "../components/TabComponent";
 import { CourseData } from "@/types";
-import AlertComponent from "../../../components/AlertComponent";
+import AlertComponent from "../components/AlertComponent";
 import { useRouter } from "next/navigation";
 
 interface initState {

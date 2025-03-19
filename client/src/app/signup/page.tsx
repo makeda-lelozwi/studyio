@@ -3,7 +3,7 @@ import React, { SyntheticEvent, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button, Grid2 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import AlertComponent from "../../../components/AlertComponent";
+import AlertComponent from "../components/AlertComponent";
 import Cookies from "js-cookie";
 
 const SignUp = () => {

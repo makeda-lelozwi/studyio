@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { UserData } from "@/types";
 import { useRouter } from "next/navigation";
-import AlertComponent from "../../../components/AlertComponent";
+import AlertComponent from "../components/AlertComponent";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
