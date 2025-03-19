@@ -2,7 +2,7 @@
 
 ## Overview
 
-Study.io is an educational technology (EdTech) web application designed to empower users with course ideas to share their knowledge by creating and uploading courses. The platform allows users to register, create courses, and manage their content seamlessly. The project was built using Next.js for the frontend, Material-UI (MUI) for styling and components, and Strapi as the backend CMS (Content Management System).
+**Study.io** is an educational technology (EdTech) web application designed to empower users with course ideas to share their knowledge by creating and uploading courses. The platform allows users to register, create courses, and manage their content seamlessly. The project was built using **Next.js** for the frontend, **Material-UI (MUI)** for styling and components, and **Strapi** as the backend CMS (Content Management System).
 
 ### Development Process
 
