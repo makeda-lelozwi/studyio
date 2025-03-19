@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect, useReducer } from "react";
 import Cookies from "js-cookie";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import TabComponent from "../../../components/TabComponent";
 import { CourseData } from "@/types";
 import AlertComponent from "../../../components/AlertComponent";
+import { useRouter } from "next/navigation";
 
 interface initState {
   data: CourseData[];
@@ -22,7 +23,9 @@ interface initAction {
 const Dashboard = () => {
   const [userName, setUserName] = useState<string | null>(null);
   const tabs = ["All courses", "Create course"];
-  // const [courses, setCourses] = useState([]);
+
+  const router = useRouter();
+
   const reducer = (prevState: initState, action: initAction) => {
     switch (action.type) {
       case "successful":
@@ -79,6 +82,7 @@ const Dashboard = () => {
         let data;
         if (res.status === 200) {
           data = await res.json();
+          console.log("course data", data);
           dispatchCourses({
             type: "successful",
             payload: data.data,
@@ -103,17 +107,27 @@ const Dashboard = () => {
         console.log("Courses are loaded.");
       });
   }, []);
-
-  if (!userName) {
-    return <div>Loading...</div>;
-  }
-
+  const handleLogOut = () => {
+    Cookies.remove("userData");
+    router.back();
+  };
   return (
     <>
-      <Typography variant={"h6"} component={"h1"}>
-        Welcome to your dashboard,{" "}
-        <span style={{ color: "red" }}>{userName}</span>!
-      </Typography>
+      {userName ? (
+        <>
+          <Typography variant={"h6"} component={"h1"}>
+            Welcome to your dashboard,{" "}
+            <span style={{ color: "red" }}>{userName}</span>!
+          </Typography>
+          <Button variant="contained" onClick={handleLogOut}>
+            Log Out
+          </Button>
+        </>
+      ) : (
+        <Typography variant={"h6"} component={"h1"}>
+          Loading Dashboard...
+        </Typography>
+      )}
       <AlertComponent
         message={courses.message}
         isError={courses.isError}
