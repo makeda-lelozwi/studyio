@@ -8,22 +8,28 @@
 
 1. Key Sections and AI Assistance
 
-Defining Interfaces: AI helped define TypeScript interfaces for course data, user data, and API responses.
+Defining Interfaces: AI helped define TypeScript interfaces for course data, user data, and API responses. I updated the interfaces and turned them into types and converted the attribute names to the ones I defined in my Strapi content0type/model.
 
 Troubleshooting Errors: AI was used to debug and resolve issues during development.
 
 Styling: AI provided guidance on using MUI components effectively and ensuring a consistent design.
 
-Error Handling: AI assisted in implementing initial error handling for API requests and user interactions.
+Error Handling: AI assisted in implementing initial error handling for API requests and user interactions. I used the error handling for early modelling but then utilised a separate Alert component to handle displaying errors. I used the Strapi api response written documentation to inform how I would access and display error messages.
 
-API Integration: AI ensured the correct usage of Strapi endpoints and proper filtering of responses.
+API Integration: AI ensured the correct usage of Strapi endpoints and proper filtering of responses. I used AI to model a "mock" api filter for Strapi and then refactored it to work in my dashboard component.
+
+Markdown: I used DeepSeek to write out the structure of my README and then I went back and added my changes.
 
 2. Main Sources of Help
-   Strapi Documentation: Both written documentation and the Strapi AI chatbot were used extensively.
+
+Strapi Documentation: Both written documentation and the Strapi AI chatbot were used extensively.
 
 YouTube: Tutorials and guides for Next.js, MUI, and Strapi.
 
 DeepSeek: AI assistance for coding, debugging, and best practices.
+
+3. Estimated Percentage of AI used
+   30%
 
 ### Installation and Setup
 
