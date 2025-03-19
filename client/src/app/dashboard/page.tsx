@@ -68,7 +68,7 @@ const Dashboard = () => {
     setUserName(parsedUserData.userName || null);
 
     fetch(
-      `http://localhost:1337/api/courses?filters[user_id][$eq]=${user_id}`,
+      `http://localhost:1337/api/courses?filters[user_id][$eq]=${user_id}&populate=cover`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

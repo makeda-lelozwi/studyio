@@ -11,7 +11,7 @@ type CourseData = {
   documentId: string;
   price: number;
   title: string;
-  cover: number;
+  cover: ImageEntry;
   description: string;
   updatedAt: string;
   publishedAt: string;
