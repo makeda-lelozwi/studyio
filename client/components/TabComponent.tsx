@@ -2,8 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Course from "./Courses/Course";
-import Create from "./Create/Create";
+import Course from "./Course";
+import Create from "./Create";
 import { CourseData } from "@/types";
 
 interface TabPropData {

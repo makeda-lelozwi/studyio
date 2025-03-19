@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { Typography } from "@mui/material";
 import TabComponent from "../../../components/TabComponent";
 import { CourseData } from "@/types";
-import AlertComponent from "../../../components/Alert/AlertComponent";
+import AlertComponent from "../../../components/AlertComponent";
 
 interface initState {
   data: CourseData[];
