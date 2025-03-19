@@ -4,27 +4,41 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CourseData } from "@/types";
-
-interface CourseProps {
-  course: CourseData;
-}
+import { CourseProps } from "@/app/types";
 
 const Course = ({ course }: CourseProps) => {
   const imageUrl = course.cover?.url
     ? `http://localhost:1337${course.cover.url}`
     : "";
+
+  // Format the date using JavaScript's Date object
+  const formatDate = (dateString: string | number | Date) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+  const formattedDate = course.publis
+    ? formatDate(course.createdAt)
+    : "Unknown Date";
   return (
-    <Card sx={{ maxWidth: 345, margin: 5 }}>
-      <CardHeader title={course.title} subheader="September 14, 2016" />
-      <CardMedia component="img" height="194" image={imageUrl} alt="" />
+    <Card sx={{ margin: 2, width: 345 }}>
+      <CardHeader
+        title={course.title}
+        subheader={`Created on ${formattedDate}`}
+      />
+      {imageUrl ? (
+        <CardMedia component="img" height="194" image={imageUrl} alt="" />
+      ) : (
+        <Typography>No Image Loaded</Typography>
+      )}
       <CardContent>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {course.description}
-        </Typography>
-        <Typography variant="body2">
           {course.price ? "R" + course.price : ""}
         </Typography>
+        <Typography variant="body2">{course.description}</Typography>
       </CardContent>
     </Card>
   );

@@ -7,7 +7,7 @@ type UserData = {
 
 type CourseData = {
   id: number;
-  createdAT: string;
+  createdAt: string;
   documentId: string;
   price: number;
   title: string;
@@ -51,6 +51,15 @@ type ErrorResponse = {
     message: string;
   };
 };
+
+export interface AlertComponentProp {
+  message: string;
+  isError: boolean;
+}
+
+export interface CourseProps {
+  course: CourseData;
+}
 
 export type {
   UserData,

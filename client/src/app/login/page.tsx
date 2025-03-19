@@ -1,8 +1,8 @@
 "use client";
-import { Grid2, TextField, Button } from "@mui/material";
+import { Grid2, TextField, Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { UserData } from "@/types";
+import { UserData } from "@/app/types";
 import { useRouter } from "next/navigation";
 import AlertComponent from "../components/AlertComponent";
 
@@ -56,53 +56,67 @@ const Login = () => {
   };
 
   return (
-    <Grid2>
+    <Grid2
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ height: "100vh" }}
+      container
+      spacing={2}
+    >
       {!userData?.isLoggedIn && (
-        <div>
-          <h3>Welcome to Study.io</h3>
-          <p>Enter your email and password to share your courses.</p>
+        <>
+          <Grid2>
+            <Typography variant={"h6"} component={"h2"}>
+              Enter your email and password to view your courses.
+            </Typography>
+          </Grid2>
 
-          <form action="" onSubmit={handleLogin}>
-            <div>
-              <p>Username </p>{" "}
-              <TextField
-                required
-                id="outlined-basic"
-                label="Email Address or Username"
-                variant="outlined"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-              />
-            </div>
-            <div>
-              <p>Password </p>{" "}
-              <TextField
-                required
-                id="outlined-basic"
-                label="Password"
-                type="password"
-                variant="outlined"
-                value={password}
-                autoComplete={"true"}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            {loginError && (
-              <AlertComponent
-                message={loginError}
-                isError={true}
-              ></AlertComponent>
-            )}
-            {/* {loginError && <p style={{ color: "red" }}>{loginError}</p>} */}
-            <Button type="submit" variant="contained">
-              Login
-            </Button>
-            <h3>New to Study.io?</h3>
-            <Button variant="text" href="/signup">
-              Register Here
-            </Button>
-          </form>
-        </div>
+          <Grid2>
+            <form action="" onSubmit={handleLogin}>
+              <div>
+                <p>Username </p>{" "}
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Email Address or Username"
+                  variant="outlined"
+                  value={identifier}
+                  autoComplete="off"
+                  onChange={(e) => setIdentifier(e.target.value)}
+                />
+              </div>
+              <div>
+                <p>Password </p>{" "}
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+              {loginError && (
+                <AlertComponent
+                  message={loginError}
+                  isError={true}
+                ></AlertComponent>
+              )}
+              {/* {loginError && <p style={{ color: "red" }}>{loginError}</p>} */}
+
+              <Button type="submit" variant="contained" sx={{ margin: "8px" }}>
+                Login
+              </Button>
+              <h3>New to Study.io?</h3>
+              <Button variant="text" href="/signup" sx={{ margin: "8px" }}>
+                Register Here
+              </Button>
+            </form>
+          </Grid2>
+        </>
       )}
     </Grid2>
   );

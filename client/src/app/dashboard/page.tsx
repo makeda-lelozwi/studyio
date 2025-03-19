@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect, useReducer } from "react";
 import Cookies from "js-cookie";
-import { Button, Typography } from "@mui/material";
+import { Button, Grid2, Typography } from "@mui/material";
 import TabComponent from "../components/TabComponent";
-import { CourseData } from "@/types";
+import { CourseData } from "@/app/types";
 import AlertComponent from "../components/AlertComponent";
 import { useRouter } from "next/navigation";
 
@@ -114,15 +114,14 @@ const Dashboard = () => {
   return (
     <>
       {userName ? (
-        <>
+        <Grid2 container spacing={2} sx={{ display: "flex", flexWrap: "wrap" }}>
           <Typography variant={"h6"} component={"h1"}>
-            Welcome to your dashboard,{" "}
-            <span style={{ color: "red" }}>{userName}</span>!
+            Welcome to your dashboard, {userName}!
           </Typography>
           <Button variant="contained" onClick={handleLogOut}>
             Log Out
           </Button>
-        </>
+        </Grid2>
       ) : (
         <Typography variant={"h6"} component={"h1"}>
           Loading Dashboard...

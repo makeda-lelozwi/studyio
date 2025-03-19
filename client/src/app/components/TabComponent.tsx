@@ -4,7 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Course from "./Course";
 import Create from "./Create";
-import { CourseData } from "@/types";
+import { CourseData } from "@/app/types";
+import { Grid2 } from "@mui/material";
 
 interface TabPropData {
   tabs: string[];
@@ -31,7 +32,6 @@ const TabComponent = ({ tabs, courses }: TabPropData) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -43,9 +43,11 @@ const TabComponent = ({ tabs, courses }: TabPropData) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        {courses.map((course, index) => (
-          <Course key={index} course={course} />
-        ))}
+        <Grid2 container spacing={2} sx={{ display: "flex", flexWrap: "wrap" }}>
+          {courses.map((course, index) => (
+            <Course key={index} course={course} />
+          ))}
+        </Grid2>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <Create />

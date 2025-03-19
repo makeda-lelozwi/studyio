@@ -1,11 +1,12 @@
 import React from "react";
 import HomePage from "./components/Home";
+import { Grid2 } from "@mui/material";
 
 const Home = () => {
   return (
-    <div>
+    <Grid2 container alignItems="center" justifyContent="center">
       <HomePage />
-    </div>
+    </Grid2>
   );
 };
 

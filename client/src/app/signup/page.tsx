@@ -1,7 +1,7 @@
 "use client";
 import React, { SyntheticEvent, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { Button, Grid2 } from "@mui/material";
+import { Button, Grid2, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import AlertComponent from "../components/AlertComponent";
 import Cookies from "js-cookie";
@@ -59,10 +59,22 @@ const SignUp = () => {
     }
   };
   return (
-    <Grid2>
+    <Grid2
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ height: "100vh" }}
+      container
+    >
       <div>
-        <h3>Get started with Study.io</h3>
-        <p>Sign in and start creating courses now!</p>
+        <Typography variant={"h6"} component={"h2"}>
+          {" "}
+          Get started with Study.io
+        </Typography>
+
+        <Typography variant={"h6"}>
+          Sign in and start creating courses now!
+        </Typography>
 
         {showAlert && (
           <AlertComponent message={message} isError={isError}></AlertComponent>
@@ -78,6 +90,7 @@ const SignUp = () => {
               variant="outlined"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              autoComplete="off"
             />
           </div>
           <div>
@@ -89,6 +102,7 @@ const SignUp = () => {
               variant="outlined"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
             />
           </div>
           <div>
@@ -101,6 +115,7 @@ const SignUp = () => {
               variant="outlined"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
             />
           </div>
           {signUpError && (
@@ -109,11 +124,11 @@ const SignUp = () => {
               isError={true}
             ></AlertComponent>
           )}
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" sx={{ margin: "8px" }}>
             Sign Up
           </Button>
           <h3>Already with us?</h3>
-          <Button variant="text" href="/login">
+          <Button variant="text" href="/login" sx={{ margin: "8px" }}>
             Login Here
           </Button>
         </form>

@@ -1,10 +1,7 @@
 import { Alert } from "@mui/material";
 import { useState } from "react";
+import { AlertComponentProp } from "../types";
 
-interface AlertComponentProp {
-  message: string;
-  isError: boolean;
-}
 const AlertComponent = ({ message, isError }: AlertComponentProp) => {
   console.log("alert is ", message);
   const [isOpen, setIsopen] = useState(true);

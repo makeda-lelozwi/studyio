@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Grid2, TextField } from "@mui/material";
 import React, { ChangeEvent, useState } from "react";
 import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -79,7 +79,12 @@ const Create = () => {
   };
 
   return (
-    <>
+    <Grid2
+      container
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
       <form action="" onSubmit={createCourse}>
         <div>
           <p>Course Title </p>{" "}
@@ -89,7 +94,9 @@ const Create = () => {
             label="Course Title"
             variant="outlined"
             value={title}
+            sx={{ width: 350 }}
             onChange={(e) => setTitle(e.target.value)}
+            autoComplete="off"
           />
         </div>
         <div>
@@ -99,8 +106,12 @@ const Create = () => {
             id="outlined-basic"
             label="Course Description"
             variant="outlined"
+            multiline
+            rows={4}
+            sx={{ width: 350 }}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            autoComplete="off"
           />
         </div>
         <div>
@@ -109,6 +120,7 @@ const Create = () => {
             component="label"
             variant="outlined"
             startIcon={<UploadFileIcon />}
+            sx={{ width: 350 }}
           >
             Upload Course Cover
             <input type="file" hidden onChange={handleFileUpload} />
@@ -122,18 +134,20 @@ const Create = () => {
             label="Price"
             variant="outlined"
             value={price}
+            sx={{ width: 350 }}
             onChange={(e) => {
               const value = e.target.value;
               // Convert the string to a number or set to null if empty
               setPrice(value === "" ? null : Number(value));
             }}
+            autoComplete="off"
           />
         </div>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" sx={{ margin: "8px" }}>
           Create Course
         </Button>
       </form>
-    </>
+    </Grid2>
   );
 };
 
