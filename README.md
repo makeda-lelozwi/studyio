@@ -7,7 +7,8 @@
 ### Development Process
 
 1. Key Sections and AI Assistance
-   Defining Interfaces: AI helped define TypeScript interfaces for course data, user data, and API responses.
+
+Defining Interfaces: AI helped define TypeScript interfaces for course data, user data, and API responses.
 
 Troubleshooting Errors: AI was used to debug and resolve issues during development.
 
