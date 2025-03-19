@@ -2,11 +2,13 @@
 import React, { SyntheticEvent, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button, Grid2 } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleRegister = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -23,6 +25,7 @@ const SignUp = () => {
       const data = await response.json();
 
       console.log(data);
+      router.push("/dashboard");
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -32,7 +35,6 @@ const SignUp = () => {
       <div>
         <h3>Get started with Study.io</h3>
         <p>Sign in and start creating courses now!</p>
-
         <form action="" onSubmit={handleRegister}>
           <div>
             <p>Name </p>{" "}

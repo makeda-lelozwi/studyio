@@ -31,7 +31,8 @@ const TabComponent = ({ tabs, courses }: TabPropData) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  console.log("Tabs panel courses: ", courses);
+  
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -42,7 +43,7 @@ const TabComponent = ({ tabs, courses }: TabPropData) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-      {courses.map((course, index) => (
+        {courses.map((course, index) => (
           <Course key={index} course={course} />
         ))}
       </CustomTabPanel>
