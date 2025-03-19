@@ -1,12 +1,17 @@
-import { Button, Grid2, TextField } from "@mui/material";
+import { Button, Grid2, TextField, Typography } from "@mui/material";
 import React, { ChangeEvent, useState } from "react";
 import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import AlertComponent from "./AlertComponent";
+
 const Create = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number | null>(null);
   const [cover, setCover] = useState<number | null>(null);
+  const [coverDescription, setCoverDescription] = useState("");
+  const [createSuccess, setCreateSuccess] = useState("");
+  const [createError, setCreateError] = useState("");
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const userDataCookie = Cookies.get("userData");
@@ -29,17 +34,16 @@ const Create = () => {
         body: form,
       });
 
-      if (!response.ok) {
+      const data = await response.json();
+      
+      if (response.ok) {
+        const imageId = data[0].id;
+        const coverName = data[0].name;
+        setCover(imageId);
+        setCoverDescription(coverName);
+      } else {
         throw new Error("File upload failed");
       }
-
-      // Step 3: Parse the response and store the image ID
-      const data = await response.json();
-      console.log("File uploaded successfully:", data);
-
-      // Extract the image ID from the response
-      const imageId = data[0].id;
-      setCover(imageId);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -64,15 +68,14 @@ const Create = () => {
           data: { title, description, price, user_id, cover: cover },
         }),
       });
-
-      if (!response.ok) {
+      const data = await response.json();
+      if (response.ok) {
+        
+        setCreateSuccess("Course successfully created.");
+      } else {
+        setCreateError(data.error.message);
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
-
-      const courseCreateResponse = await response.json();
-      console.log("Course created successfully", courseCreateResponse);
-
-      
     } catch (error) {
       console.error("Error fetching courses data:", error);
     }
@@ -85,6 +88,10 @@ const Create = () => {
       alignItems="center"
       justifyContent="center"
     >
+      {createSuccess && (
+        <AlertComponent message={createSuccess} isError={false} />
+      )}
+      {createError && <AlertComponent message={createError} isError={true} />}
       <form action="" onSubmit={createCourse}>
         <div>
           <p>Course Title </p>{" "}
@@ -125,19 +132,19 @@ const Create = () => {
             Upload Course Cover
             <input type="file" hidden onChange={handleFileUpload} />
           </Button>
+          <Typography>{coverDescription ? coverDescription : ""}</Typography>
         </div>
         <div>
           <p>Price </p>{" "}
           <TextField
             id="outlined-basic"
             type="number"
-            label="Price"
+            label="Price (optional)"
             variant="outlined"
             value={price}
             sx={{ width: 350 }}
             onChange={(e) => {
               const value = e.target.value;
-              // Convert the string to a number or set to null if empty
               setPrice(value === "" ? null : Number(value));
             }}
             autoComplete="off"

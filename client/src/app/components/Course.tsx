@@ -20,7 +20,7 @@ const Course = ({ course }: CourseProps) => {
       day: "numeric",
     });
   };
-  const formattedDate = course.publis
+  const formattedDate = course.publishedAt
     ? formatDate(course.createdAt)
     : "Unknown Date";
   return (

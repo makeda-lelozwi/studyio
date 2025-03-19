@@ -41,12 +41,12 @@ const Login = () => {
         };
 
         Cookies.set("userData", JSON.stringify(userData));
-        console.log(userData);
+       
         setUserData(userData);
 
         router.push("/dashboard");
       } else {
-        console.log(data);
+        
         setLoginError(data.error.message);
       }
     } catch (error) {

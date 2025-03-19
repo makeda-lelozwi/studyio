@@ -30,8 +30,6 @@ const SignUp = () => {
       );
       const data = await response.json();
 
-      console.log(data);
-
       if (response.ok) {
         message = "Successfully registered account.";
         isError = false;

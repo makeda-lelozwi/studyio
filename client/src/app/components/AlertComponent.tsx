@@ -3,7 +3,6 @@ import { useState } from "react";
 import { AlertComponentProp } from "../types";
 
 const AlertComponent = ({ message, isError }: AlertComponentProp) => {
-  console.log("alert is ", message);
   const [isOpen, setIsopen] = useState(true);
 
   return (

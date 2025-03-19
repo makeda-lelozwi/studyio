@@ -82,7 +82,6 @@ const Dashboard = () => {
         let data;
         if (res.status === 200) {
           data = await res.json();
-          console.log("course data", data);
           dispatchCourses({
             type: "successful",
             payload: data.data,
