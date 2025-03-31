@@ -52,19 +52,36 @@ type ErrorResponse = {
   };
 };
 
-export interface AlertComponentProp {
+type AlertComponentProp = {
   message: string;
   isError: boolean;
-}
+};
 
-export interface CourseProps {
+type CourseProps = {
   course: CourseData;
-}
+};
+
+type InitState = {
+  data: CourseData[];
+  isError: boolean;
+  message: string;
+  isLoading: boolean;
+};
+type InitAction = {
+  type: string;
+  message: string;
+  payload: CourseData[];
+  isLoading: boolean;
+};
 
 export type {
+  AlertComponentProp,
   UserData,
   CourseData,
+  CourseProps,
   ImageEntry,
+  InitAction,
+  InitState,
   UserDataResponse,
   CourseResponse,
   ErrorResponse,

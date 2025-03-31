@@ -22,7 +22,6 @@ interface initAction {
 
 const Dashboard = () => {
   const [userName, setUserName] = useState<string | null>(null);
-  const tabs = ["All courses", "Create course"];
 
   const router = useRouter();
 
@@ -141,7 +140,7 @@ const Dashboard = () => {
         message={courses.message}
         isError={courses.isError}
       ></AlertComponent>
-      <CourseList tabs={tabs} courses={courses.data}></CourseList>
+      <CourseList courses={courses.data}></CourseList>
     </>
   );
 };

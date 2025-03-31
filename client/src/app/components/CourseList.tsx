@@ -5,7 +5,6 @@ import { CourseData } from "@/app/types";
 import { Grid2 } from "@mui/material";
 
 interface TabPropData {
-  tabs: string[];
   courses: CourseData[];
 }
 
