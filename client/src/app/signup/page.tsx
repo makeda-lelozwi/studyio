@@ -47,7 +47,7 @@ const SignUp = () => {
         setSignUpError(data.error.message);
         return;
       }
-      router.push("/dashboard");
+      router.push("/login");
     } catch (error) {
       showAlert = true;
       console.error("Registration error:", error);
