@@ -12,7 +12,7 @@ const CourseList = ({ courses }: TabPropData) => {
   return (
     <Box sx={{ width: "100%" }}>
       <Grid2 container spacing={2} sx={{ display: "flex", flexWrap: "wrap" }}>
-        {courses.map((course, index) => (
+        {courses?.map((course, index) => (
           <Course key={index} course={course} />
         ))}
       </Grid2>

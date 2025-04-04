@@ -7,7 +7,7 @@ const Dashboard = () => {
   const courses = useFetchCourses(initValue);
   return (
     <>
-      <CourseList courses={courses}></CourseList>
+      <CourseList courses={courses.data}></CourseList>
     </>
   );
 };

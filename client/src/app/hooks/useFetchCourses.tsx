@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useReducer } from "react";
 import { InitAction, InitState } from "../../types";
-import qs from "qs";
-import { getUserData } from "@/helper";
-import { BASE_URL } from "@/constant";
+import { getCourses } from "../api/course";
 const reducer = (prevState: InitState, action: InitAction) => {
   switch (action.type) {
     case "successful":
@@ -35,58 +33,32 @@ const reducer = (prevState: InitState, action: InitAction) => {
 
 const useFetchCourses = (initialData: InitState) => {
   const [courses, dispatchCourses] = useReducer(reducer, initialData);
-  const userId = getUserData().user_id; //getting user info from Cookies
-
-  const queries = qs.stringify(
-    userId
-      ? {
-          filters: {
-            user_id: {
-              $eq: userId,
-            },
-          },
-          populate: "cover",
-        }
-      : {
-          populate: "cover", // no filters, return all courses with covers
-        },
-    {
-      encodeValuesOnly: true,
-    }
-  );
 
   useEffect(() => {
-    fetch(`${BASE_URL}/courses?${queries}`)
-      .then(async (res) => {
-        let data;
-        if (res.status === 200) {
-          data = await res.json();
+    const fetchCourses = async () => {
+      try {
+        const courseResponse = await getCourses();
+        if (courseResponse?.data) {
           dispatchCourses({
             type: "successful",
-            payload: data.data,
+            payload: courseResponse.data,
             message: "",
             isLoading: false,
           });
-        } else {
-          data = await res.json();
-          throw new Error(data.message);
         }
-      })
-      .catch((error) => {
-        console.log(error.message, error);
+      } catch {
         dispatchCourses({
           type: "failed",
-          message: error.message,
           payload: [],
+          message: "Failed to fetch courses",
           isLoading: false,
         });
-      })
-      .finally(() => {
-        console.log("Courses are loaded.");
-      });
-  }, []);
+      }
+    };
 
-  return courses.data;
+    fetchCourses();
+  }, []);
+  return courses;
 };
 
 export default useFetchCourses;

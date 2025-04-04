@@ -7,7 +7,6 @@ import { Grid2, Typography } from "@mui/material";
 import { initValue } from "@/constant";
 
 const Home = () => {
- 
   const courses = useFetchCourses(initValue);
   return (
     <>
@@ -23,7 +22,7 @@ const Home = () => {
         </Button>
       </Grid2>
 
-      <CourseList courses={courses}/>
+      <CourseList courses={courses.data} />
     </>
   );
 };
