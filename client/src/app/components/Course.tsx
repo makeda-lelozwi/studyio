@@ -4,7 +4,9 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CourseProps } from "@/app/types";
+import Fab from "@mui/material/Fab";
+import EditIcon from "@mui/icons-material/Edit";
+import { CourseProps } from "@/types";
 
 const Course = ({ course }: CourseProps) => {
   const imageUrl = course.cover?.url
@@ -28,7 +30,11 @@ const Course = ({ course }: CourseProps) => {
       <CardHeader
         title={course.title}
         subheader={`Created on ${formattedDate}`}
-      />
+      >
+        <Fab>
+          <EditIcon> </EditIcon>
+        </Fab>
+      </CardHeader>
       {imageUrl ? (
         <CardMedia component="img" height="194" image={imageUrl} alt="" />
       ) : (

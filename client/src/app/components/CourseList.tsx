@@ -1,7 +1,7 @@
 "use client";
 import Box from "@mui/material/Box";
 import Course from "./Course";
-import { CourseData } from "@/app/types";
+import { CourseData } from "@/types";
 import { Grid2 } from "@mui/material";
 
 interface TabPropData {

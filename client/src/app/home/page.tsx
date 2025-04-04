@@ -4,14 +4,10 @@ import Button from "@mui/material/Button";
 import useFetchCourses from "../hooks/useFetchCourses";
 import CourseList from "../components/CourseList";
 import { Grid2, Typography } from "@mui/material";
+import { initValue } from "@/constant";
 
 const Home = () => {
-  const initValue = {
-    data: [],
-    isError: false,
-    message: "",
-    isLoading: false,
-  };
+ 
   const courses = useFetchCourses(initValue);
   return (
     <>

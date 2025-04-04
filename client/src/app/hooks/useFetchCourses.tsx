@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useReducer } from "react";
-import { InitAction, InitState } from "../types";
-
+import { InitAction, InitState } from "../../types";
+import qs from "qs";
+import { getUserData } from "@/helper";
+import { BASE_URL } from "@/constant";
 const reducer = (prevState: InitState, action: InitAction) => {
   switch (action.type) {
     case "successful":
@@ -30,11 +32,31 @@ const reducer = (prevState: InitState, action: InitAction) => {
       throw new Error(`Unhandled action type`);
   }
 };
+
 const useFetchCourses = (initialData: InitState) => {
   const [courses, dispatchCourses] = useReducer(reducer, initialData);
+  const userId = getUserData().user_id; //getting user info from Cookies
+
+  const queries = qs.stringify(
+    userId
+      ? {
+          filters: {
+            user_id: {
+              $eq: userId,
+            },
+          },
+          populate: "cover",
+        }
+      : {
+          populate: "cover", // no filters, return all courses with covers
+        },
+    {
+      encodeValuesOnly: true,
+    }
+  );
 
   useEffect(() => {
-    fetch("http://localhost:1337/api/courses?populate=cover")
+    fetch(`${BASE_URL}/courses?${queries}`)
       .then(async (res) => {
         let data;
         if (res.status === 200) {
