@@ -9,6 +9,7 @@ import {
 import { getToken, setUserDataToCookies } from "@/helper";
 import { login, signup, getUserData, logout } from "../api/auth";
 import { AuthContextType, User } from "@/types";
+import { useRouter } from "next/navigation";
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
@@ -20,6 +21,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
+
   //gets jwt set to cookies (in helper.tsx)
   const authToken = getToken();
 
@@ -27,8 +30,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (authToken) {
       fetchUserData(authToken);
+      router.push("dashboard");
+    } else {
     }
-  }, [authToken]);
+  }, [authToken, router]);
 
   const fetchUserData = async (token: string) => {
     setIsLoading(true);
@@ -71,6 +76,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const handleLogout = () => {
     logout();
     setUser(null);
+    router.push("home");
   };
 
   return (

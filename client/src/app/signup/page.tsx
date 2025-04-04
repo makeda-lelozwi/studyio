@@ -5,7 +5,7 @@ import { Button, Grid2, Typography } from "@mui/material";
 import { useAuthContext } from "../context/AuthContext";
 
 const SignUp = () => {
-  const { signup } = useAuthContext();
+  const { signup, loading } = useAuthContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,74 +14,82 @@ const SignUp = () => {
     event.preventDefault();
     await signup(username, email, password);
   };
-  
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Grid2
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      style={{ height: "100vh" }}
-      container
-    >
-      <div>
-        <Typography variant={"h6"} component={"h2"}>
-          {" "}
-          Get started with Study.io
-        </Typography>
-
-        <Typography variant={"h6"}>
-          Sign in and start creating courses now!
-        </Typography>
-
-        <form action="" onSubmit={handleRegister}>
+    <>
+      {!loading && (
+        <Grid2
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          style={{ height: "100vh" }}
+          container
+        >
           <div>
-            <p>Name </p>{" "}
-            <TextField
-              required
-              id="outlined-basic"
-              label="Name"
-              variant="outlined"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="off"
-            />
-          </div>
-          <div>
-            <p>Email Address </p>{" "}
-            <TextField
-              required
-              id="outlined-basic"
-              label="Email Address"
-              variant="outlined"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="off"
-            />
-          </div>
-          <div>
-            <p>Password </p>{" "}
-            <TextField
-              required
-              id="outlined-basic"
-              label="Password"
-              type="password"
-              variant="outlined"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
-            />
-          </div>
+            <Typography variant={"h6"} component={"h2"}>
+              {" "}
+              Get started with Study.io
+            </Typography>
 
-          <Button type="submit" variant="contained" sx={{ margin: "8px" }}>
-            Sign Up
-          </Button>
-          <h3>Already with us?</h3>
-          <Button variant="text" href="/login" sx={{ margin: "8px" }}>
-            Login Here
-          </Button>
-        </form>
-      </div>
-    </Grid2>
+            <Typography variant={"h6"}>
+              Sign in and start creating courses now!
+            </Typography>
+
+            <form action="" onSubmit={handleRegister}>
+              <div>
+                <p>Name </p>{" "}
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Name"
+                  variant="outlined"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+              <div>
+                <p>Email Address </p>{" "}
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Email Address"
+                  variant="outlined"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+              <div>
+                <p>Password </p>{" "}
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+
+              <Button type="submit" variant="contained" sx={{ margin: "8px" }}>
+                Sign Up
+              </Button>
+              <h3>Already with us?</h3>
+              <Button variant="text" href="/login" sx={{ margin: "8px" }}>
+                Login Here
+              </Button>
+            </form>
+          </div>
+        </Grid2>
+      )}
+    </>
   );
 };
 
