@@ -1,87 +1,44 @@
 "use client";
 import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import AlertComponent from "../components/AlertComponent";
+import { uploadToMediaGallery } from "../api/upload";
+import { createNewCourse } from "../api/course";
 import { useRouter } from "next/navigation";
 
 const Create = () => {
+  //course info fields
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number | null>(null);
   const [cover, setCover] = useState<number | null>(null);
-  const [coverDescription, setCoverDescription] = useState("");
-  const [createSuccess, setCreateSuccess] = useState("");
-  const [createError, setCreateError] = useState("");
+  const [coverName, setCoverName] = useState("");
   const router = useRouter();
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const userDataCookie = Cookies.get("userData");
-    const parsedUserData = JSON.parse(userDataCookie || "{}");
-    const token = parsedUserData.authToken;
-    //Step 1: Upload file to Strapi Media Library
-    if (!event.target.files) {
-      return;
-    }
-    const imageFile = event.target.files[0];
-
-    const form = new FormData();
-    form.append("files", imageFile);
-    try {
-      const response = await fetch("http://localhost:1337/api/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: form,
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        const imageId = data[0].id;
-        const coverName = data[0].name;
-        setCover(imageId);
-        setCoverDescription(coverName);
-      } else {
-        throw new Error("File upload failed");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
+    const imageUpload = await uploadToMediaGallery(event);
+    if (imageUpload) {
+      const imageId = imageUpload[0].id;
+      const imageName = imageUpload[0].name;
+      setCover(imageId);
+      setCoverName(imageName);
     }
   };
 
   const createCourse = async (event: React.FormEvent) => {
     event.preventDefault();
+    const courseResponse = await createNewCourse(
+      title,
+      description,
+      cover,
+      price
+    );
 
-    const userDataCookie = Cookies.get("userData");
-    const parsedUserData = JSON.parse(userDataCookie || "{}");
-    const token = parsedUserData.authToken;
-    const user_id = parsedUserData.user_id;
-
-    try {
-      const response = await fetch("http://localhost:1337/api/courses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          data: { title, description, price, user_id, cover: cover },
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setCreateSuccess("Course successfully created.");
-        router.back();
-      } else {
-        setCreateError(data.error.message);
-        throw new Error(`HTTP Error! Status: ${response.status}`);
-      }
-    } catch (error) {
-      console.error("Error fetching courses data:", error);
+    if (courseResponse.data) {
+      console.log(courseResponse.data);
+      router.back();
     }
+    return courseResponse.data;
   };
 
   return (
@@ -95,10 +52,6 @@ const Create = () => {
       <Typography variant={"h6"} component={"h2"}>
         Complete the form and upload a course
       </Typography>
-      {createSuccess && (
-        <AlertComponent message={createSuccess} isError={false} />
-      )}
-      {createError && <AlertComponent message={createError} isError={true} />}
       <form action="" onSubmit={createCourse}>
         <div>
           <p>Course Title </p>{" "}
@@ -142,16 +95,15 @@ const Create = () => {
               accept="image/*"
             />
           </Button>
-          <Typography>{coverDescription ? coverDescription : ""}</Typography>
+          <Typography>{coverName ? coverName : ""}</Typography>
         </div>
         <div>
-          <p>Price (optional) </p>
-          {""}
+          <p>Price (optional) </p>{" "}
           <TextField
             id="outlined-basic"
             type="number"
             variant="outlined"
-            value={price}
+            value={price === null ? "" : price}
             sx={{ width: 350 }}
             onChange={(e) => {
               const value = e.target.value;
