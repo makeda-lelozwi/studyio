@@ -1,6 +1,7 @@
+"use client";
 import { Alert } from "@mui/material";
 import { useState } from "react";
-import { AlertComponentProp } from "../types";
+import { AlertComponentProp } from "../../types";
 
 const AlertComponent = ({ message, isError }: AlertComponentProp) => {
   const [isOpen, setIsopen] = useState(true);

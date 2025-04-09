@@ -30,10 +30,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (authToken) {
       fetchUserData(authToken);
-      router.push("dashboard");
-    } else {
     }
-  }, [authToken, router]);
+  }, [authToken]);
 
   const fetchUserData = async (token: string) => {
     setIsLoading(true);
@@ -56,7 +54,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
     if (authData?.user) {
       setUserDataToCookies(authData);
-      setUser(authData.user); //what happens if we comment this out?
+      setUser(authData.user); 
+      router.push("dashboard");
     }
   };
 
@@ -69,7 +68,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
     if (authData?.user) {
       setUserDataToCookies(authData);
-      setUser(authData?.user); //and this?
+      setUser(authData?.user);
+      router.push("login");
     }
   };
 
