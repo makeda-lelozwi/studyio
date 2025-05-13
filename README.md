@@ -29,7 +29,7 @@ YouTube: Tutorials and guides for Next.js, MUI, and Strapi.
 DeepSeek: AI assistance for coding, debugging, and best practices.
 
 3. Estimated Percentage of AI used
-   30%
+   10%
 
 ### Installation and Setup
 
